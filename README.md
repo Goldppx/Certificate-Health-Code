@@ -13,7 +13,9 @@
 
 ## GitHub Pages
 
-在仓库 **Settings → Pages** 选择 **Deploy from a branch**，设置 `main` 分支和 `/ (root)`，保存即可。本项目含 `.nojekyll`，支持直接发布静态文件。
+在仓库 **Settings → Pages** 将 Source 设置为 **GitHub Actions**。推送到 `main` 后，`.github/workflows/pages.yml` 自动校验并部署静态文件；也可以在 Actions 页面选择该流程并点击 **Run workflow**。
+
+发布地址：https://goldppx.github.io/Certificate-Health-Code/
 
 ## 判读规则
 
