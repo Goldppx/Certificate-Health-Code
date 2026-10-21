@@ -13,7 +13,7 @@
 
 ## GitHub Pages
 
-在仓库 **Settings → Pages** 选择 **Deploy from a branch**，设置 `main` 分支和 `/ (root)`，保存即可。本项目含 `.nojekyll`，支持直接发布静态文件。
+在仓库 **Settings → Pages** 将 **Source** 设为 **GitHub Actions**。推送到 `main` 后会触发 `.github/workflows/jekyll.yml`，自动将仓库根目录静态文件部署到 Pages。本项目含 `.nojekyll`，支持直接发布静态文件。
 
 ## 判读规则
 
