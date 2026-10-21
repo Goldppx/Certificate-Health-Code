@@ -28,12 +28,13 @@ jobs:
       - name: Validate and prepare static site
         run: |
           node --check app.js
+          node --check analytics.js
           node --check qrcode.js
-          for file in index.html style.css app.js qrcode.js; do
+          for file in index.html style.css app.js qrcode.js analytics.js; do
             test -s "$file"
           done
           mkdir -p _site
-          cp index.html style.css app.js qrcode.js _site/
+          cp index.html style.css app.js qrcode.js analytics.js _site/
           touch _site/.nojekyll
 
       - name: Configure Pages
