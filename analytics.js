@@ -4,14 +4,11 @@
   if (!counter || window.certificateHealthPVRequested) return;
   window.certificateHealthPVRequested = true;
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 8000);
-  // Use one canonical project URL; omit query strings, fragments and referrers.
-  fetch('https://cdn.busuanzi.cc/api.php', {
+  const timer = setTimeout(() => controller.abort(), 12000);
+  // Count this project page only. Omit URL parameters, fragments and referrers.
+  fetch('https://bsz.iirose.cn/api', {
     method: 'POST',
-    body: JSON.stringify({
-      url: new URL('./', window.location.href).href,
-      referrer: ''
-    }),
+    headers: { 'x-bsz-referer': new URL('./', window.location.href).href },
     credentials: 'omit',
     referrerPolicy: 'no-referrer',
     signal: controller.signal
@@ -20,9 +17,11 @@
       if (!response.ok) throw new Error('PV service unavailable');
       return response.json();
     })
-    .then(data => {
-      const value = Number(data.busuanzi_page_pv);
-      if (!Number.isSafeInteger(value) || value < 1) throw new Error('Invalid PV');
+    .then(result => {
+      const value = Number(result.data?.page_pv);
+      if (result.success !== true || !Number.isSafeInteger(value) || value < 1) {
+        throw new Error('Invalid PV response');
+      }
       counter.textContent = value.toLocaleString('zh-CN');
     })
     .catch(() => { counter.textContent = '暂不可用'; })
