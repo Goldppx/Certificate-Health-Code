@@ -3,6 +3,8 @@
   const counter = document.getElementById('pvCount');
   if (!counter || window.certificateHealthPVRequested) return;
   window.certificateHealthPVRequested = true;
+  // Historical PV supplied by the site owner before changing providers.
+  const historicalPV = 12000;
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 12000);
   // Count this project page only. Omit URL parameters, fragments and referrers.
@@ -22,7 +24,9 @@
       if (result.success !== true || !Number.isSafeInteger(value) || value < 1) {
         throw new Error('Invalid PV response');
       }
-      counter.textContent = value.toLocaleString('zh-CN');
+      const total = historicalPV + value;
+      if (!Number.isSafeInteger(total)) throw new Error('Invalid total PV');
+      counter.textContent = total.toLocaleString('zh-CN');
     })
     .catch(() => { counter.textContent = '暂不可用'; })
     .finally(() => clearTimeout(timer));
